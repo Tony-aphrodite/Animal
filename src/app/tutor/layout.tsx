@@ -39,9 +39,9 @@ export default function TutorLayout({
   const userName = session.user.name || session.user.email?.split('@')[0] || 'User'
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-[#EEF2F7] flex flex-col">
       {/* Header */}
-      <header className="bg-gray-100 sticky top-0 z-40">
+      <header className="bg-[#EEF2F7] sticky top-0 z-40">
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
             {/* Mobile menu button */}
