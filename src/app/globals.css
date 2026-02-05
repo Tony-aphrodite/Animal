@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* PIPO Brand Colors */
+  --pipo-yellow: #ffde59;
+  --pipo-blue: #5271ff;
+  --pipo-blue-bg: #6376B1;
+  --pipo-green: #71C79F;
+
+  /* Derived Colors */
+  --pipo-yellow-light: #fff4c4;
+  --pipo-blue-light: #e8ecff;
+  --pipo-green-light: #e0f5eb;
+  --pipo-blue-dark: #3d5bdb;
+  --pipo-green-dark: #5aa882;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* PIPO Brand Colors for Tailwind */
+  --color-pipo-yellow: var(--pipo-yellow);
+  --color-pipo-yellow-light: var(--pipo-yellow-light);
+  --color-pipo-blue: var(--pipo-blue);
+  --color-pipo-blue-light: var(--pipo-blue-light);
+  --color-pipo-blue-bg: var(--pipo-blue-bg);
+  --color-pipo-blue-dark: var(--pipo-blue-dark);
+  --color-pipo-green: var(--pipo-green);
+  --color-pipo-green-light: var(--pipo-green-light);
+  --color-pipo-green-dark: var(--pipo-green-dark);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pipo-blue-bg);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pipo-blue);
+}
+
+/* Button Base Styles */
+.btn {
+  @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-primary {
+  @apply bg-pipo-blue text-white hover:bg-pipo-blue-dark focus:ring-pipo-blue;
+}
+
+.btn-secondary {
+  @apply bg-pipo-green text-white hover:bg-pipo-green-dark focus:ring-pipo-green;
+}
+
+.btn-warning {
+  @apply bg-pipo-yellow text-gray-800 hover:brightness-95 focus:ring-pipo-yellow;
+}
+
+/* Card Styles */
+.card {
+  @apply bg-white rounded-xl shadow-lg p-6 border border-gray-100;
+}
+
+/* Input Styles */
+.input {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pipo-blue focus:border-transparent transition-all;
+}
+
+.input-label {
+  @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+/* Status Badge Styles */
+.badge {
+  @apply px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide;
+}
+
+.badge-raw {
+  @apply bg-gray-200 text-gray-700;
+}
+
+.badge-active {
+  @apply bg-pipo-green-light text-pipo-green-dark;
+}
+
+/* Gradient Backgrounds */
+.gradient-header {
+  background: linear-gradient(135deg, var(--pipo-green) 0%, var(--pipo-blue-bg) 100%);
+}
+
+.gradient-admin {
+  background: linear-gradient(180deg, var(--pipo-blue) 0%, var(--pipo-blue-bg) 100%);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2s ease-in-out infinite;
+}

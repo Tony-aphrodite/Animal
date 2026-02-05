@@ -1,0 +1,60 @@
+// PIPO - Pet Identification System via QR Code
+// Database Schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// User model for Admin and Tutor
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("TUTOR") // ADMIN or TUTOR
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  pets      Pet[]
+}
+
+// QR Code model
+model QRCode {
+  id          String    @id @default(cuid())
+  code        String    @unique // Unique number (e.g., 00001)
+  status      String    @default("RAW") // RAW or ACTIVE
+  createdAt   DateTime  @default(now())
+  activatedAt DateTime?
+  pet         Pet?
+}
+
+// Pet model
+model Pet {
+  id        String   @id @default(cuid())
+  qrCodeId  String   @unique
+  qrCode    QRCode   @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
+  tutorId   String
+  tutor     User     @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+
+  // Pet Information (all optional)
+  photo        String?
+  name         String?
+  species      String? // Dog, Cat, etc.
+  breed        String?
+  birthDate    DateTime?
+  sex          String?  // Male, Female
+  observations String?
+
+  // Tutor Contact Information
+  tutorName      String
+  tutorPhone     String
+  contactType    String  @default("WHATSAPP") // WHATSAPP or CALL
+  secondaryPhone String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

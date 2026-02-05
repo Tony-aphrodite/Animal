@@ -1,0 +1,5 @@
+Cores:
+Amarelo: #ffde59
+Azul: #5271ff
+Azul-back: #6376B1
+Verde: #71C79F

@@ -1,0 +1,192 @@
+ESTRUTURA DO PROJETO
+Sistema de Identificação de Pets via QR Code – PIPO (Versão Ajustada)
+1. Visão Geral
+
+Sistema web de identificação de pets via QR Code numerado, integrado às coleiras PIPO.
+O QR direciona para uma página pública do pet, com informações configuradas pelo tutor, permitindo contato rápido via WhatsApp ou ligação, conforme escolha no cadastro.
+
+Sistema 100% web, sem app.
+
+2. Perfis de Acesso
+
+O sistema terá 3 contextos principais:
+
+Admin (PIPO)
+
+Tutor (edição de dados)
+
+Usuário público (quem escaneia o QR)
+
+3. Painel ADMIN – Login PIPO
+3.1 Login Administrativo
+
+Login protegido por usuário e senha
+
+Acesso apenas interno (PIPO)
+
+3.2 Gestão de QR Codes
+Funcionalidades obrigatórias:
+
+✅ Gerar QR Codes únicos
+
+✅ Cada QR Code deve ser:
+
+Numerado (ID visível e único)
+
+Associado a uma URL pública
+
+✅ Status do QR:
+
+Cru (sem cadastro)
+
+Ativo (com cadastro)
+
+✅ Visualização em lista/tabela com:
+
+Número do QR
+
+Status
+
+Data de criação
+
+Data de ativação (se houver)
+
+3.3 Download e Exportação de QR Codes
+Download individual:
+
+Download do QR Code em PNG
+
+Alta definição (próprio para gravação a laser / impressão)
+
+QR legível em qualquer celular
+
+Exportação em massa:
+
+Exportar QR Codes em lote:
+
+Apenas crus
+
+Apenas ativos
+
+Todos
+
+Formatos sugeridos:
+
+ZIP com PNGs
+
+CSV com ID + status + URL (opcional)
+
+👉 Objetivo: conferência, controle de estoque e produção.
+
+4. Fluxo do QR Code
+4.1 QR Cru (Sem Cadastro)
+
+QR aponta para:
+
+Página de Cadastro Inicial do Tutor
+
+Exibe mensagem:
+
+“Ative a identificação do seu pet”
+
+4.2 QR Ativo
+
+QR aponta para:
+
+Página Pública do Pet
+
+Exibe apenas as informações cadastradas pelo tutor
+
+5. Área do Tutor (Login Simples)
+5.1 Login do Tutor
+
+Login simples (e-mail + senha ou link mágico)
+
+Acesso apenas para:
+
+Editar informações
+
+Não é painel complexo, apenas edição
+
+5.2 Página de Edição (Tutor)
+Dados do Pet (todos opcionais):
+
+Foto do pet
+
+Nome do pet
+
+Espécie
+
+Raça
+
+Data de nascimento
+
+Sexo
+
+Observações / informações médicas
+
+📌 Regra importante:
+
+Só aparece na página pública o que o tutor preencher
+
+Campo vazio → não exibir
+
+Dados do Tutor:
+
+Nome
+
+Telefone principal
+
+Tipo de contato preferido:
+
+WhatsApp
+
+Ligação
+
+(opcional) Telefone secundário
+
+6. Página Pública – Informações do Pet (Principal)
+
+Essa é a tela que qualquer pessoa vê ao escanear o QR.
+
+Conteúdo exibido:
+
+📸 Foto do pet
+
+🐾 Nome do pet
+
+Informações do pet:
+
+Espécie
+
+Raça
+
+Data de nascimento (apenas se cadastrada)
+
+Observações (se houver)
+
+Botão de Contato (dinâmico)
+
+Exibir apenas UM botão, conforme escolha do tutor:
+
+🟢 Chamar no WhatsApp
+
+Abre conversa com mensagem automática
+
+OU
+
+📞 Ligar para o Tutor
+
+Abre discador do celular
+
+⚠️ Não exibir ambos ao mesmo tempo.
+
+7. Regras de Exibição (Muito Importante)
+
+Campos não preenchidos não aparecem
+
+Interface limpa, sem campos vazios
+
+Página pública não editável
+
+Dados sensíveis limitados (LGPD)
