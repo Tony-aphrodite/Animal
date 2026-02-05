@@ -77,6 +77,7 @@ export async function PUT(
       birthDate: data.birthDate ? new Date(data.birthDate) : null,
       sex: data.sex,
       observations: data.observations,
+      location: data.location,
       tutorName: data.tutorName,
       tutorPhone: data.tutorPhone,
       contactType: data.contactType,

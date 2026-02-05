@@ -49,6 +49,7 @@ model Pet {
   birthDate    DateTime?
   sex          String?  // Male, Female
   observations String?
+  location     String?  // City, neighborhood
 
   // Tutor Contact Information
   tutorName      String

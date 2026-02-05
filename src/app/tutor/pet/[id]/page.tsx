@@ -12,6 +12,7 @@ interface Pet {
   birthDate: string | null
   sex: string | null
   observations: string | null
+  location: string | null
   tutorName: string
   tutorPhone: string
   contactType: string
@@ -45,6 +46,7 @@ export default function EditPetPage() {
   const [tutorPhone, setTutorPhone] = useState('')
   const [contactType, setContactType] = useState('WHATSAPP')
   const [secondaryPhone, setSecondaryPhone] = useState('')
+  const [location, setLocation] = useState('')
 
   useEffect(() => {
     fetchPet()
@@ -72,6 +74,7 @@ export default function EditPetPage() {
       setTutorPhone(data.tutorPhone || '')
       setContactType(data.contactType || 'WHATSAPP')
       setSecondaryPhone(data.secondaryPhone || '')
+      setLocation(data.location || '')
     } catch (error) {
       console.error('Failed to fetch pet:', error)
       router.push('/tutor')
@@ -153,6 +156,7 @@ export default function EditPetPage() {
           birthDate: birthDate || null,
           sex: sex || null,
           observations: observations || null,
+          location: location || null,
           tutorName,
           tutorPhone,
           contactType,
@@ -438,6 +442,18 @@ export default function EditPetPage() {
                 onChange={(e) => setSecondaryPhone(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent"
                 placeholder="+55 11 88888-8888"
+              />
+            </div>
+
+            {/* Location */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Location (City, Neighborhood)</label>
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent"
+                placeholder="Porto Alegre - Centro"
               />
             </div>
           </div>
