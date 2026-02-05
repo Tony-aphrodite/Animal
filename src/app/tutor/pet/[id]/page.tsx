@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
+import Link from 'next/link'
 
 interface Pet {
   id: string
@@ -127,8 +128,19 @@ export default function EditPetPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
+      <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-800">Edit Pet Profile</h1>
+        <Link
+          href={`/pet/${pet.qrCode.code}`}
+          target="_blank"
+          className="px-4 py-2 bg-pipo-blue text-white rounded-lg text-sm font-medium hover:bg-pipo-blue/90 transition-colors flex items-center gap-2"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+          View Public Profile
+        </Link>
       </div>
 
       {/* Success/Error Message */}
@@ -349,6 +361,36 @@ export default function EditPetPage() {
           {saving ? 'Saving...' : 'Save Changes'}
         </button>
       </form>
+
+      {/* QR Code Section */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200">
+          <h2 className="font-semibold text-gray-800">QR Code</h2>
+        </div>
+        <div className="p-6 text-center">
+          <div className="inline-block p-4 bg-white border-2 border-gray-200 rounded-xl">
+            <div className="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center mb-3">
+              <svg className="w-24 h-24 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 3h6v6H3V3zm2 2v2h2V5H5zm8-2h6v6h-6V3zm2 2v2h2V5h-2zM3 13h6v6H3v-6zm2 2v2h2v-2H5zm13-2h1v1h-1v-1zm-3 0h1v1h-1v-1zm-1 1h1v1h-1v-1zm1 1h1v1h-1v-1zm2 0h1v1h-1v-1zm0 2h1v1h-1v-1zm-3 0h1v1h-1v-1zm1 1h1v1h-1v-1zm2 0h3v1h-3v-1z"/>
+              </svg>
+            </div>
+            <p className="text-lg font-mono font-bold text-gray-800">#{pet.qrCode.code}</p>
+          </div>
+          <p className="text-sm text-gray-500 mt-4">
+            This QR code is linked to your pet&apos;s profile. Anyone who scans it will see the public pet info.
+          </p>
+          <Link
+            href={`/pet/${pet.qrCode.code}`}
+            target="_blank"
+            className="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-pipo-green text-white rounded-lg font-medium hover:bg-pipo-green/90 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            View Public Profile
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }
