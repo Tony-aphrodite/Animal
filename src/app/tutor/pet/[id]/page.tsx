@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import Link from 'next/link'
 
 interface Pet {
   id: string
@@ -33,7 +32,6 @@ export default function EditPetPage() {
   const [message, setMessage] = useState('')
 
   // Form state
-  const [photo, setPhoto] = useState('')
   const [name, setName] = useState('')
   const [species, setSpecies] = useState('')
   const [breed, setBreed] = useState('')
@@ -43,7 +41,6 @@ export default function EditPetPage() {
   const [tutorName, setTutorName] = useState('')
   const [tutorPhone, setTutorPhone] = useState('')
   const [contactType, setContactType] = useState('WHATSAPP')
-  const [email, setEmail] = useState('')
 
   useEffect(() => {
     fetchPet()
@@ -60,7 +57,6 @@ export default function EditPetPage() {
       setPet(data)
 
       // Set form values
-      setPhoto(data.photo || '')
       setName(data.name || '')
       setSpecies(data.species || '')
       setBreed(data.breed || '')
@@ -88,7 +84,7 @@ export default function EditPetPage() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          photo: photo || null,
+          photo: null,
           name: name || null,
           species: species || null,
           breed: breed || null,
@@ -116,17 +112,6 @@ export default function EditPetPage() {
     }
   }
 
-  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    const reader = new FileReader()
-    reader.onload = () => {
-      setPhoto(reader.result as string)
-    }
-    reader.readAsDataURL(file)
-  }
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -140,26 +125,15 @@ export default function EditPetPage() {
   }
 
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div>
         <h1 className="text-2xl font-bold text-gray-800">Edit Pet Profile</h1>
-        <Link
-          href={`/pet/${pet.qrCode.code}`}
-          target="_blank"
-          className="text-pipo-blue hover:underline text-sm flex items-center gap-1"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-          </svg>
-          Preview
-        </Link>
       </div>
 
       {/* Success/Error Message */}
       {message && (
-        <div className={`p-4 rounded-lg ${message.includes('success') ? 'bg-pipo-green-light text-pipo-green-dark' : 'bg-red-50 text-red-600'}`}>
+        <div className={`p-4 rounded-lg ${message.includes('success') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>
           {message}
         </div>
       )}
@@ -167,184 +141,185 @@ export default function EditPetPage() {
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Pet Information Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="bg-gray-50 px-6 py-4 border-b border-gray-100">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="font-semibold text-gray-800">Pet Information</h2>
           </div>
 
-          <div className="p-6 space-y-5">
-            {/* Photo */}
-            <div className="flex items-center gap-4">
-              <div className="w-20 h-20 rounded-full overflow-hidden bg-pipo-green-light flex-shrink-0 border-2 border-white shadow-md">
-                {photo ? (
-                  <img src={photo} alt="Pet" className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-3xl">🐾</div>
-                )}
-              </div>
-              <div className="flex gap-2">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoUpload}
-                  className="hidden"
-                  id="photo-upload"
-                />
-                <label
-                  htmlFor="photo-upload"
-                  className="px-4 py-2 bg-pipo-blue text-white text-sm font-medium rounded-lg cursor-pointer hover:bg-pipo-blue-dark transition-colors"
-                >
-                  Upload
-                </label>
-                {photo && (
-                  <button
-                    type="button"
-                    onClick={() => setPhoto('')}
-                    className="px-4 py-2 text-red-500 text-sm font-medium rounded-lg border border-red-200 hover:bg-red-50 transition-colors"
-                  >
-                    Remove
-                  </button>
-                )}
-              </div>
-            </div>
-
+          <div className="p-6 space-y-4">
             {/* Pet Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Pet Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Pet Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pipo-blue focus:border-transparent transition-all"
-                placeholder="Enter pet name"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent"
+                placeholder="Pipoca"
               />
             </div>
 
-            {/* Species */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Species</label>
-              <div className="flex gap-2">
-                {['Dog', 'Cat', 'Bird', 'Other'].map((s) => (
+            {/* Species and Date Row */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Species</label>
+                <div className="flex gap-2">
                   <button
-                    key={s}
                     type="button"
-                    onClick={() => setSpecies(s)}
-                    className={`px-5 py-2.5 rounded-xl font-medium text-sm transition-all ${
-                      species === s
-                        ? 'bg-pipo-blue text-white shadow-md'
+                    onClick={() => setSpecies('Dog')}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      species === 'Dog'
+                        ? 'bg-pipo-blue text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
-                    {s}
+                    Dog
                   </button>
-                ))}
+                  <button
+                    type="button"
+                    onClick={() => setSpecies('Cat')}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      species === 'Cat'
+                        ? 'bg-pipo-blue text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    Cat
+                  </button>
+                </div>
               </div>
-            </div>
-
-            {/* Birth Date */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Birth Date</label>
-              <input
-                type="date"
-                value={birthDate}
-                onChange={(e) => setBirthDate(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pipo-blue focus:border-transparent transition-all"
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Sex</label>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSex('Male')}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      sex === 'Male'
+                        ? 'bg-pipo-blue text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    Male
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSex('Female')}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      sex === 'Female'
+                        ? 'bg-pipo-blue text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    Female
+                  </button>
+                </div>
+              </div>
             </div>
 
             {/* Breed */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Breed</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Breed</label>
               <input
                 type="text"
                 value={breed}
                 onChange={(e) => setBreed(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pipo-blue focus:border-transparent transition-all"
-                placeholder="Enter breed"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent"
+                placeholder="Demo"
               />
             </div>
 
-            {/* Sex */}
+            {/* Date of Birth */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+              <input
+                type="date"
+                value={birthDate}
+                onChange={(e) => setBirthDate(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent"
+              />
+            </div>
+
+            {/* Sex Radio Buttons */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Sex</label>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setSex('Male')}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium transition-all ${
-                    sex === 'Male'
-                      ? 'bg-pipo-blue text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  <span>♂</span> Male
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSex('Female')}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium transition-all ${
-                    sex === 'Female'
-                      ? 'bg-pipo-blue text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  <span>♀</span> Female
-                </button>
+              <div className="flex items-center gap-6">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="sex"
+                    checked={sex === 'Male'}
+                    onChange={() => setSex('Male')}
+                    className="w-4 h-4 text-pipo-blue focus:ring-pipo-blue"
+                  />
+                  <span className="text-gray-700">Male</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="sex"
+                    checked={sex === 'Female'}
+                    onChange={() => setSex('Female')}
+                    className="w-4 h-4 text-pipo-blue focus:ring-pipo-blue"
+                  />
+                  <span className="text-gray-700">Female</span>
+                </label>
               </div>
             </div>
 
             {/* Notes */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Notes</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
               <textarea
                 value={observations}
                 onChange={(e) => setObservations(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pipo-blue focus:border-transparent transition-all min-h-[80px] resize-none"
-                placeholder="Any special notes, medical conditions, etc."
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent min-h-[80px] resize-none"
+                placeholder="Afraid of loud noises"
               />
             </div>
           </div>
         </div>
 
         {/* Tutor Information Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="bg-gray-50 px-6 py-4 border-b border-gray-100">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="font-semibold text-gray-800">Tutor Information</h2>
           </div>
 
-          <div className="p-6 space-y-5">
+          <div className="p-6 space-y-4">
             {/* Full Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
               <input
                 type="text"
                 value={tutorName}
                 onChange={(e) => setTutorName(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pipo-blue focus:border-transparent transition-all"
-                placeholder="Your name"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent"
+                placeholder="Mariana Almeida"
                 required
               />
             </div>
 
-            {/* Contact Type */}
+            {/* Contact Type - Radio Buttons */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Contact</label>
               <div className="flex items-center gap-6">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
-                    type="checkbox"
+                    type="radio"
+                    name="contactType"
                     checked={contactType === 'WHATSAPP'}
                     onChange={() => setContactType('WHATSAPP')}
-                    className="w-5 h-5 rounded border-gray-300 text-pipo-green focus:ring-pipo-green"
+                    className="w-4 h-4 text-pipo-green focus:ring-pipo-green"
                   />
-                  <span className="text-gray-700">WhatsApp</span>
+                  <span className="text-gray-700">Whatsapp</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
-                    type="checkbox"
+                    type="radio"
+                    name="contactType"
                     checked={contactType === 'CALL'}
                     onChange={() => setContactType('CALL')}
-                    className="w-5 h-5 rounded border-gray-300 text-pipo-blue focus:ring-pipo-blue"
+                    className="w-4 h-4 text-pipo-blue focus:ring-pipo-blue"
                   />
                   <span className="text-gray-700">Call</span>
                 </label>
@@ -353,26 +328,13 @@ export default function EditPetPage() {
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
               <input
                 type="tel"
                 value={tutorPhone}
                 onChange={(e) => setTutorPhone(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pipo-blue focus:border-transparent transition-all"
-                placeholder="+55 11 99999-9999"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent"
+                placeholder="mariana@example.com"
                 required
-              />
-            </div>
-
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email (Optional)</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pipo-blue focus:border-transparent transition-all"
-                placeholder="your@email.com"
               />
             </div>
           </div>
@@ -382,19 +344,9 @@ export default function EditPetPage() {
         <button
           type="submit"
           disabled={saving}
-          className="w-full bg-pipo-green hover:bg-pipo-green-dark text-white font-semibold py-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-pipo-green/30"
+          className="w-full bg-pipo-green hover:bg-pipo-green/90 text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {saving ? (
-            <span className="flex items-center justify-center gap-2">
-              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              Saving...
-            </span>
-          ) : (
-            'Save Changes'
-          )}
+          {saving ? 'Saving...' : 'Save Changes'}
         </button>
       </form>
     </div>
