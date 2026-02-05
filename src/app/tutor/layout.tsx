@@ -41,15 +41,15 @@ export default function TutorLayout({
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
-      <header className="bg-pipo-yellow shadow-sm sticky top-0 z-40">
+      <header className="bg-white shadow-sm sticky top-0 z-40 border-b border-gray-200">
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
             {/* Mobile menu button */}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-pipo-yellow/80 transition-colors"
+              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
@@ -57,22 +57,21 @@ export default function TutorLayout({
             {/* Logo */}
             <Link href="/tutor" className="flex items-center gap-2">
               <span className="text-2xl">🐾</span>
-              <span className="text-xl font-bold text-white drop-shadow">PIPO</span>
+              <span className="text-xl font-bold text-pipo-blue">PIPO</span>
             </Link>
 
             {/* Right side */}
             <div className="flex items-center gap-2">
-              <button className="p-2 rounded-full bg-pipo-blue text-white text-sm font-medium">
-                {userName.charAt(0).toUpperCase()}
+              <button className="w-8 h-8 rounded-full bg-pipo-yellow text-gray-800 text-sm font-bold flex items-center justify-center">
+                {userName.substring(0, 2).toUpperCase()}
               </button>
               <button
-                onClick={() => signOut({ callbackUrl: '/login' })}
-                className="hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-gray-800 text-sm font-medium transition-colors"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
-                Logout
               </button>
             </div>
           </div>
@@ -112,8 +111,8 @@ export default function TutorLayout({
               <Link
                 href="/tutor"
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
-                  pathname === '/tutor'
-                    ? 'bg-white/20 text-white'
+                  pathname === '/tutor' || pathname.startsWith('/tutor/pet')
+                    ? 'bg-pipo-yellow text-gray-800'
                     : 'text-white/80 hover:bg-white/10 hover:text-white'
                 }`}
                 onClick={() => setSidebarOpen(false)}
