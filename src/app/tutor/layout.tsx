@@ -71,29 +71,19 @@ export default function TutorLayout({
       <div className="flex flex-1">
         {/* Sidebar */}
         <aside
-          className={`fixed lg:static inset-y-0 left-0 z-30 w-64 bg-pipo-blue-bg transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+          className={`fixed lg:static inset-y-0 left-0 z-30 w-64 bg-[#dde5f8] transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           } lg:mt-0 mt-[60px]`}
         >
           <div className="flex flex-col h-full">
             {/* User Profile Section */}
-            <div className="p-4 border-b border-white/10">
-              <Link
-                href="/tutor"
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
-                  pathname === '/tutor'
-                    ? 'bg-white/20 text-white'
-                    : 'text-white/80 hover:bg-white/10 hover:text-white'
-                }`}
-                onClick={() => setSidebarOpen(false)}
-              >
-                <div className="w-8 h-8 rounded-full bg-pipo-yellow flex items-center justify-center">
-                  <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                  </svg>
+            <div className="p-4 border-b border-gray-300">
+              <div className="flex items-center gap-3 px-4 py-3">
+                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
+                  <span className="text-gray-600 text-sm">👤</span>
                 </div>
-                <span className="font-medium">{userName.toUpperCase()}</span>
-              </Link>
+                <span className="font-medium text-gray-700">{userName.toUpperCase()}</span>
+              </div>
             </div>
 
             {/* Navigation */}
@@ -103,7 +93,7 @@ export default function TutorLayout({
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
                   pathname === '/tutor' || pathname.startsWith('/tutor/pet')
                     ? 'bg-pipo-yellow text-gray-800'
-                    : 'text-white/80 hover:bg-white/10 hover:text-white'
+                    : 'text-gray-700 hover:bg-white/50'
                 }`}
                 onClick={() => setSidebarOpen(false)}
               >
@@ -113,10 +103,10 @@ export default function TutorLayout({
             </nav>
 
             {/* Logout Button at Bottom */}
-            <div className="p-4 border-t border-white/10">
+            <div className="p-4 border-t border-gray-300">
               <button
                 onClick={() => signOut({ callbackUrl: '/login' })}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white/80 hover:bg-white/10 hover:text-white transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-white/50 transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
