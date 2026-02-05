@@ -1,8 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import Link from 'next/link'
 
 interface Pet {
   id: string
@@ -26,13 +25,16 @@ export default function EditPetPage() {
   const router = useRouter()
   const params = useParams()
   const petId = params.id as string
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [pet, setPet] = useState<Pet | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
   const [message, setMessage] = useState('')
 
   // Form state
+  const [photo, setPhoto] = useState<string | null>(null)
   const [name, setName] = useState('')
   const [species, setSpecies] = useState('')
   const [breed, setBreed] = useState('')
@@ -42,6 +44,7 @@ export default function EditPetPage() {
   const [tutorName, setTutorName] = useState('')
   const [tutorPhone, setTutorPhone] = useState('')
   const [contactType, setContactType] = useState('WHATSAPP')
+  const [secondaryPhone, setSecondaryPhone] = useState('')
 
   useEffect(() => {
     fetchPet()
@@ -58,6 +61,7 @@ export default function EditPetPage() {
       setPet(data)
 
       // Set form values
+      setPhoto(data.photo || null)
       setName(data.name || '')
       setSpecies(data.species || '')
       setBreed(data.breed || '')
@@ -67,11 +71,69 @@ export default function EditPetPage() {
       setTutorName(data.tutorName || '')
       setTutorPhone(data.tutorPhone || '')
       setContactType(data.contactType || 'WHATSAPP')
+      setSecondaryPhone(data.secondaryPhone || '')
     } catch (error) {
       console.error('Failed to fetch pet:', error)
       router.push('/tutor')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploadingPhoto(true)
+    setMessage('')
+
+    try {
+      const formData = new FormData()
+      formData.append('photo', file)
+
+      const response = await fetch(`/api/tutor/pets/${petId}/photo`, {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setPhoto(data.photo)
+        setMessage('Photo uploaded successfully!')
+        setTimeout(() => setMessage(''), 3000)
+      } else {
+        const error = await response.json()
+        setMessage(error.error || 'Failed to upload photo')
+      }
+    } catch (error) {
+      console.error('Failed to upload photo:', error)
+      setMessage('Failed to upload photo')
+    } finally {
+      setUploadingPhoto(false)
+    }
+  }
+
+  const handleRemovePhoto = async () => {
+    setUploadingPhoto(true)
+    setMessage('')
+
+    try {
+      const response = await fetch(`/api/tutor/pets/${petId}/photo`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        setPhoto(null)
+        setMessage('Photo removed successfully!')
+        setTimeout(() => setMessage(''), 3000)
+      } else {
+        setMessage('Failed to remove photo')
+      }
+    } catch (error) {
+      console.error('Failed to remove photo:', error)
+      setMessage('Failed to remove photo')
+    } finally {
+      setUploadingPhoto(false)
     }
   }
 
@@ -85,7 +147,6 @@ export default function EditPetPage() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          photo: null,
           name: name || null,
           species: species || null,
           breed: breed || null,
@@ -95,7 +156,7 @@ export default function EditPetPage() {
           tutorName,
           tutorPhone,
           contactType,
-          secondaryPhone: null,
+          secondaryPhone: secondaryPhone || null,
         }),
       })
 
@@ -128,20 +189,7 @@ export default function EditPetPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Edit Pet Profile</h1>
-        <Link
-          href={`/pet/${pet.qrCode.code}`}
-          target="_blank"
-          className="px-4 py-2 bg-pipo-blue text-white rounded-lg text-sm font-medium hover:bg-pipo-blue/90 transition-colors flex items-center gap-2"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-          </svg>
-          View Public Profile
-        </Link>
-      </div>
+      <h1 className="text-2xl font-bold text-gray-800">Edit Pet Profile</h1>
 
       {/* Success/Error Message */}
       {message && (
@@ -152,6 +200,62 @@ export default function EditPetPage() {
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Pet Photo Card */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h2 className="font-semibold text-gray-800">Pet Photo</h2>
+          </div>
+
+          <div className="p-6">
+            <div className="flex flex-col items-center gap-4">
+              {/* Photo Preview */}
+              <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-pipo-green bg-gray-100">
+                {photo ? (
+                  <img
+                    src={photo}
+                    alt="Pet"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-5xl">
+                    🐾
+                  </div>
+                )}
+              </div>
+
+              {/* Upload/Remove Buttons */}
+              <div className="flex gap-3">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handlePhotoUpload}
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploadingPhoto}
+                  className="px-4 py-2 bg-pipo-blue text-white rounded-lg text-sm font-medium hover:bg-pipo-blue/90 transition-colors disabled:opacity-50"
+                >
+                  {uploadingPhoto ? 'Uploading...' : photo ? 'Change Photo' : 'Upload Photo'}
+                </button>
+                {photo && (
+                  <button
+                    type="button"
+                    onClick={handleRemovePhoto}
+                    disabled={uploadingPhoto}
+                    className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors disabled:opacity-50"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+              <p className="text-xs text-gray-500">JPEG, PNG, WebP or GIF. Max 5MB.</p>
+            </div>
+          </div>
+        </div>
+
         {/* Pet Information Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
@@ -171,7 +275,7 @@ export default function EditPetPage() {
               />
             </div>
 
-            {/* Species and Date Row */}
+            {/* Species and Sex Row */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Species</label>
@@ -181,7 +285,7 @@ export default function EditPetPage() {
                     onClick={() => setSpecies('Dog')}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                       species === 'Dog'
-                        ? 'bg-pipo-blue text-white'
+                        ? 'bg-pipo-green text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
@@ -192,7 +296,7 @@ export default function EditPetPage() {
                     onClick={() => setSpecies('Cat')}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                       species === 'Cat'
-                        ? 'bg-pipo-blue text-white'
+                        ? 'bg-pipo-green text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
@@ -237,7 +341,7 @@ export default function EditPetPage() {
                 value={breed}
                 onChange={(e) => setBreed(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent"
-                placeholder="Demo"
+                placeholder="Mixed Breed"
               />
             </div>
 
@@ -252,41 +356,14 @@ export default function EditPetPage() {
               />
             </div>
 
-            {/* Sex Radio Buttons */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Sex</label>
-              <div className="flex items-center gap-6">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="sex"
-                    checked={sex === 'Male'}
-                    onChange={() => setSex('Male')}
-                    className="w-4 h-4 text-pipo-blue focus:ring-pipo-blue"
-                  />
-                  <span className="text-gray-700">Male</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="sex"
-                    checked={sex === 'Female'}
-                    onChange={() => setSex('Female')}
-                    className="w-4 h-4 text-pipo-blue focus:ring-pipo-blue"
-                  />
-                  <span className="text-gray-700">Female</span>
-                </label>
-              </div>
-            </div>
-
             {/* Notes */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Notes / Medical Information</label>
               <textarea
                 value={observations}
                 onChange={(e) => setObservations(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent min-h-[80px] resize-none"
-                placeholder="Afraid of loud noises"
+                placeholder="Afraid of loud noises, takes medication for allergies..."
               />
             </div>
           </div>
@@ -314,6 +391,7 @@ export default function EditPetPage() {
 
             {/* Contact Type - Radio Buttons */}
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Contact Method</label>
               <div className="flex items-center gap-6">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -323,7 +401,7 @@ export default function EditPetPage() {
                     onChange={() => setContactType('WHATSAPP')}
                     className="w-4 h-4 text-pipo-green focus:ring-pipo-green"
                   />
-                  <span className="text-gray-700">Whatsapp</span>
+                  <span className="text-gray-700">WhatsApp</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -333,20 +411,33 @@ export default function EditPetPage() {
                     onChange={() => setContactType('CALL')}
                     className="w-4 h-4 text-pipo-blue focus:ring-pipo-blue"
                   />
-                  <span className="text-gray-700">Call</span>
+                  <span className="text-gray-700">Phone Call</span>
                 </label>
               </div>
             </div>
 
-            {/* Phone */}
+            {/* Primary Phone */}
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Primary Phone</label>
               <input
                 type="tel"
                 value={tutorPhone}
                 onChange={(e) => setTutorPhone(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent"
-                placeholder="mariana@example.com"
+                placeholder="+55 11 99999-9999"
                 required
+              />
+            </div>
+
+            {/* Secondary Phone */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Secondary Phone (Optional)</label>
+              <input
+                type="tel"
+                value={secondaryPhone}
+                onChange={(e) => setSecondaryPhone(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent"
+                placeholder="+55 11 88888-8888"
               />
             </div>
           </div>
@@ -361,36 +452,6 @@ export default function EditPetPage() {
           {saving ? 'Saving...' : 'Save Changes'}
         </button>
       </form>
-
-      {/* QR Code Section */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="font-semibold text-gray-800">QR Code</h2>
-        </div>
-        <div className="p-6 text-center">
-          <div className="inline-block p-4 bg-white border-2 border-gray-200 rounded-xl">
-            <div className="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center mb-3">
-              <svg className="w-24 h-24 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M3 3h6v6H3V3zm2 2v2h2V5H5zm8-2h6v6h-6V3zm2 2v2h2V5h-2zM3 13h6v6H3v-6zm2 2v2h2v-2H5zm13-2h1v1h-1v-1zm-3 0h1v1h-1v-1zm-1 1h1v1h-1v-1zm1 1h1v1h-1v-1zm2 0h1v1h-1v-1zm0 2h1v1h-1v-1zm-3 0h1v1h-1v-1zm1 1h1v1h-1v-1zm2 0h3v1h-3v-1z"/>
-              </svg>
-            </div>
-            <p className="text-lg font-mono font-bold text-gray-800">#{pet.qrCode.code}</p>
-          </div>
-          <p className="text-sm text-gray-500 mt-4">
-            This QR code is linked to your pet&apos;s profile. Anyone who scans it will see the public pet info.
-          </p>
-          <Link
-            href={`/pet/${pet.qrCode.code}`}
-            target="_blank"
-            className="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-pipo-green text-white rounded-lg font-medium hover:bg-pipo-green/90 transition-colors"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-            View Public Profile
-          </Link>
-        </div>
-      </div>
     </div>
   )
 }

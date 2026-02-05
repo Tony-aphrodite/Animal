@@ -27,8 +27,10 @@ export default function AdminDashboard() {
   const [filter, setFilter] = useState('all')
   const [loading, setLoading] = useState(true)
   const [generating, setGenerating] = useState(false)
+  const [exporting, setExporting] = useState(false)
   const [generateCount, setGenerateCount] = useState(1)
   const [showGenerateModal, setShowGenerateModal] = useState(false)
+  const [showExportModal, setShowExportModal] = useState(false)
 
   const fetchQRCodes = useCallback(async (page = 1) => {
     setLoading(true)
@@ -88,6 +90,28 @@ export default function AdminDashboard() {
     }
   }
 
+  const handleExport = async (format: 'zip' | 'csv', exportFilter: string) => {
+    setExporting(true)
+    try {
+      const response = await fetch(`/api/admin/qrcodes/export?format=${format}&filter=${exportFilter}`)
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      const ext = format === 'zip' ? 'zip' : 'csv'
+      a.download = `pipo-qrcodes-${exportFilter}-${Date.now()}.${ext}`
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+      setShowExportModal(false)
+    } catch (error) {
+      console.error('Failed to export:', error)
+    } finally {
+      setExporting(false)
+    }
+  }
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'numeric',
@@ -103,16 +127,47 @@ export default function AdminDashboard() {
         <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
       </div>
 
-      {/* Export QR Codes Section */}
+      {/* Actions Section */}
       <div className="card">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <h2 className="text-lg font-semibold text-gray-800">Export QR Codes</h2>
+          <h2 className="text-lg font-semibold text-gray-800">QR Code Management</h2>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setShowGenerateModal(true)}
-              className="px-4 py-2 rounded-lg bg-pipo-green text-white font-medium hover:bg-pipo-green/90 transition-colors"
+              className="px-4 py-2 rounded-lg bg-pipo-green text-white font-medium hover:bg-pipo-green/90 transition-colors flex items-center gap-2"
             >
-              Generate/Excel
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Generate QR
+            </button>
+            <button
+              onClick={() => setShowExportModal(true)}
+              className="px-4 py-2 rounded-lg bg-pipo-blue text-white font-medium hover:bg-pipo-blue/90 transition-colors flex items-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Export
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Filter Section */}
+      <div className="card">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h2 className="text-lg font-semibold text-gray-800">Filter QR Codes</h2>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setFilter('all')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                filter === 'all'
+                  ? 'bg-pipo-blue text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              All
             </button>
             <button
               onClick={() => setFilter('raw')}
@@ -134,16 +189,6 @@ export default function AdminDashboard() {
             >
               Active
             </button>
-            <button
-              onClick={() => setFilter('all')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                filter === 'all'
-                  ? 'bg-pipo-blue text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
-            >
-              All
-            </button>
           </div>
         </div>
       </div>
@@ -151,7 +196,9 @@ export default function AdminDashboard() {
       {/* QR Codes List */}
       <div className="card overflow-hidden p-0">
         <div className="px-6 py-4 border-b bg-gray-50">
-          <h2 className="text-lg font-semibold text-gray-800">QR Codes List</h2>
+          <h2 className="text-lg font-semibold text-gray-800">
+            QR Codes List {pagination && `(${pagination.total} total)`}
+          </h2>
         </div>
 
         {loading ? (
@@ -175,6 +222,7 @@ export default function AdminDashboard() {
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Status</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Created At</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Activated At</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Pet/Tutor</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Actions</th>
                 </tr>
               </thead>
@@ -199,13 +247,21 @@ export default function AdminDashboard() {
                     <td className="px-6 py-4 text-sm text-gray-600">
                       {qr.activatedAt ? formatDate(qr.activatedAt) : '-'}
                     </td>
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      {qr.pet ? (
+                        <div>
+                          <div className="font-medium">{qr.pet.name || 'Unnamed'}</div>
+                          <div className="text-xs text-gray-500">{qr.pet.tutorName}</div>
+                        </div>
+                      ) : '-'}
+                    </td>
                     <td className="px-6 py-4">
                       <button
                         onClick={() => handleDownload(qr.code)}
                         className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded transition-colors"
                         title="Download PNG"
                       >
-                        PNG ...
+                        PNG
                       </button>
                     </td>
                   </tr>
@@ -292,9 +348,94 @@ export default function AdminDashboard() {
               <button
                 onClick={handleGenerate}
                 disabled={generating}
-                className="px-4 py-2 rounded-lg bg-pipo-blue text-white hover:bg-pipo-blue/90 disabled:opacity-50 transition-colors"
+                className="px-4 py-2 rounded-lg bg-pipo-green text-white hover:bg-pipo-green/90 disabled:opacity-50 transition-colors"
               >
                 {generating ? 'Generating...' : `Generate ${generateCount} Code(s)`}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Export Modal */}
+      {showExportModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+            <div className="p-6 border-b">
+              <h2 className="text-xl font-bold text-gray-800">Export QR Codes</h2>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-gray-600 text-sm">Choose export format and filter:</p>
+
+              {/* ZIP Export */}
+              <div className="space-y-2">
+                <h3 className="font-semibold text-gray-700">ZIP (PNG Images)</h3>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => handleExport('zip', 'raw')}
+                    disabled={exporting}
+                    className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors disabled:opacity-50"
+                  >
+                    Raw Only
+                  </button>
+                  <button
+                    onClick={() => handleExport('zip', 'active')}
+                    disabled={exporting}
+                    className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors disabled:opacity-50"
+                  >
+                    Active Only
+                  </button>
+                  <button
+                    onClick={() => handleExport('zip', 'all')}
+                    disabled={exporting}
+                    className="px-4 py-2 rounded-lg bg-pipo-blue hover:bg-pipo-blue/90 text-white text-sm font-medium transition-colors disabled:opacity-50"
+                  >
+                    All
+                  </button>
+                </div>
+              </div>
+
+              {/* CSV Export */}
+              <div className="space-y-2">
+                <h3 className="font-semibold text-gray-700">CSV (Spreadsheet)</h3>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => handleExport('csv', 'raw')}
+                    disabled={exporting}
+                    className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors disabled:opacity-50"
+                  >
+                    Raw Only
+                  </button>
+                  <button
+                    onClick={() => handleExport('csv', 'active')}
+                    disabled={exporting}
+                    className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium transition-colors disabled:opacity-50"
+                  >
+                    Active Only
+                  </button>
+                  <button
+                    onClick={() => handleExport('csv', 'all')}
+                    disabled={exporting}
+                    className="px-4 py-2 rounded-lg bg-pipo-green hover:bg-pipo-green/90 text-white text-sm font-medium transition-colors disabled:opacity-50"
+                  >
+                    All
+                  </button>
+                </div>
+              </div>
+
+              {exporting && (
+                <div className="flex items-center justify-center py-4">
+                  <div className="animate-spin h-6 w-6 border-2 border-pipo-blue border-t-transparent rounded-full mr-2"></div>
+                  <span className="text-gray-600">Exporting...</span>
+                </div>
+              )}
+            </div>
+            <div className="p-6 border-t bg-gray-50 flex justify-end rounded-b-2xl">
+              <button
+                onClick={() => setShowExportModal(false)}
+                className="px-4 py-2 rounded-lg border hover:bg-gray-100 transition-colors"
+              >
+                Close
               </button>
             </div>
           </div>

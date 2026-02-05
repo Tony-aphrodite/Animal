@@ -147,8 +147,17 @@ export default function PublicPetPage() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-100 text-5xl">
-                  🐕
+                <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                  <img
+                    src="/dog-placeholder.jpg"
+                    alt="Pet"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement
+                      target.style.display = 'none'
+                      target.parentElement!.innerHTML = '<span class="text-5xl">🐕</span>'
+                    }}
+                  />
                 </div>
               )}
             </div>
@@ -163,7 +172,7 @@ export default function PublicPetPage() {
           </div>
 
           {/* Tutor Section */}
-          <div className="px-6 py-4 border-t border-gray-100">
+          <div className="px-6 py-3 border-t border-gray-100">
             <div className="flex items-center gap-3">
               <div className="text-xl">👤</div>
               <div>
@@ -210,20 +219,29 @@ export default function PublicPetPage() {
             </div>
           )}
 
-          {/* Info Note */}
-          <div className="px-6 py-4 border-t border-gray-100">
-            <p className="text-xs text-gray-400 text-center">
-              You read information from lost animal
-            </p>
-          </div>
-
           {/* QR Code Display */}
-          <div className="px-6 py-4 border-t border-gray-100 flex justify-center">
+          <div className="px-6 py-6 border-t border-gray-100 flex justify-center">
             <div className="text-center">
-              <div className="w-24 h-24 mx-auto bg-gray-100 rounded-lg flex items-center justify-center mb-2">
-                <svg className="w-16 h-16 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M3 3h6v6H3V3zm2 2v2h2V5H5zm8-2h6v6h-6V3zm2 2v2h2V5h-2zM3 13h6v6H3v-6zm2 2v2h2v-2H5zm13-2h1v1h-1v-1zm-3 0h1v1h-1v-1zm-1 1h1v1h-1v-1zm1 1h1v1h-1v-1zm2 0h1v1h-1v-1zm0 2h1v1h-1v-1zm-3 0h1v1h-1v-1zm1 1h1v1h-1v-1zm2 0h3v1h-3v-1z"/>
-                </svg>
+              <div className="w-24 h-24 mx-auto mb-3">
+                <img
+                  src={`/qrcodes/${code}.png`}
+                  alt="QR Code"
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement
+                    target.style.display = 'none'
+                    const parent = target.parentElement
+                    if (parent) {
+                      parent.innerHTML = `
+                        <div class="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
+                          <svg class="w-16 h-16 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 3h6v6H3V3zm2 2v2h2V5H5zm8-2h6v6h-6V3zm2 2v2h2V5h-2zM3 13h6v6H3v-6zm2 2v2h2v-2H5zm13-2h1v1h-1v-1zm-3 0h1v1h-1v-1zm-1 1h1v1h-1v-1zm1 1h1v1h-1v-1zm2 0h1v1h-1v-1zm0 2h1v1h-1v-1zm-3 0h1v1h-1v-1zm1 1h1v1h-1v-1zm2 0h3v1h-3v-1z"/>
+                          </svg>
+                        </div>
+                      `
+                    }
+                  }}
+                />
               </div>
               <p className="text-xs text-gray-500">Pet identified by QR Code • PIPO</p>
             </div>

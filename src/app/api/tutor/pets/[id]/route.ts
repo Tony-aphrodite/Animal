@@ -69,21 +69,28 @@ export async function PUT(
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
+    // Only update photo if explicitly provided in the request
+    const updateData: Record<string, unknown> = {
+      name: data.name,
+      species: data.species,
+      breed: data.breed,
+      birthDate: data.birthDate ? new Date(data.birthDate) : null,
+      sex: data.sex,
+      observations: data.observations,
+      tutorName: data.tutorName,
+      tutorPhone: data.tutorPhone,
+      contactType: data.contactType,
+      secondaryPhone: data.secondaryPhone,
+    }
+
+    // Only update photo if it's explicitly in the request body
+    if ('photo' in data) {
+      updateData.photo = data.photo
+    }
+
     const pet = await prisma.pet.update({
       where: { id },
-      data: {
-        photo: data.photo,
-        name: data.name,
-        species: data.species,
-        breed: data.breed,
-        birthDate: data.birthDate ? new Date(data.birthDate) : null,
-        sex: data.sex,
-        observations: data.observations,
-        tutorName: data.tutorName,
-        tutorPhone: data.tutorPhone,
-        contactType: data.contactType,
-        secondaryPhone: data.secondaryPhone,
-      },
+      data: updateData,
     })
 
     return NextResponse.json(pet)
