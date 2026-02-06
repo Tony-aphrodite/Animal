@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 interface Pet {
   id: string
@@ -26,6 +27,7 @@ export default function PublicPetPage() {
   const [pet, setPet] = useState<Pet | null>(null)
   const [status, setStatus] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [isOwner, setIsOwner] = useState(false)
 
   useEffect(() => {
     fetchPet()
@@ -44,6 +46,7 @@ export default function PublicPetPage() {
       } else {
         setStatus(data.status)
         setPet(data.pet)
+        setIsOwner(data.isOwner || false)
       }
     } catch (error) {
       console.error('Failed to fetch pet:', error)
@@ -130,6 +133,32 @@ export default function PublicPetPage() {
           </div>
         </div>
       </header>
+
+      {/* Owner Actions Bar */}
+      {isOwner && pet && (
+        <div className="bg-pipo-green-light border-b border-pipo-green/20">
+          <div className="max-w-lg mx-auto px-4 py-2 flex items-center justify-between">
+            <span className="text-sm text-gray-700">This is your pet</span>
+            <div className="flex gap-2">
+              <Link
+                href={`/tutor/pet/${pet.id}`}
+                className="px-3 py-1.5 bg-pipo-green text-white text-sm font-medium rounded-lg hover:bg-pipo-green/90 transition-colors flex items-center gap-1"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Edit
+              </Link>
+              <Link
+                href="/tutor"
+                className="px-3 py-1.5 bg-white text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors border border-gray-200"
+              >
+                Dashboard
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="max-w-lg mx-auto px-4 py-6">
