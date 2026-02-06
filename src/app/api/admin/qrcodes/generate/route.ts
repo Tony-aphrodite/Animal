@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import prisma from '@/lib/prisma'
-import { generateSequentialCode, generateQRCodeImage } from '@/lib/qrcode'
+import { generateSequentialCode } from '@/lib/qrcode'
 
 export async function POST(request: NextRequest) {
   try {
@@ -26,7 +26,6 @@ export async function POST(request: NextRequest) {
       orderBy: { code: 'desc' },
     })
 
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
     const generatedCodes = []
 
     let currentCode = lastQRCode?.code || '00000'
@@ -34,10 +33,7 @@ export async function POST(request: NextRequest) {
     for (let i = 0; i < count; i++) {
       currentCode = generateSequentialCode(currentCode)
 
-      // Generate QR code image
-      const imagePath = await generateQRCodeImage(currentCode, baseUrl)
-
-      // Create QR code in database
+      // Create QR code in database (QR image is generated on-demand)
       const qrcode = await prisma.qRCode.create({
         data: {
           code: currentCode,
@@ -45,10 +41,7 @@ export async function POST(request: NextRequest) {
         },
       })
 
-      generatedCodes.push({
-        ...qrcode,
-        imagePath,
-      })
+      generatedCodes.push(qrcode)
     }
 
     return NextResponse.json({

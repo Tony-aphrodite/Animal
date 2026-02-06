@@ -229,23 +229,9 @@ export default function PublicPetPage() {
               <div className="text-center">
                 <div className="w-24 h-24 mx-auto mb-3">
                   <img
-                    src={`/qrcodes/${code}.png`}
+                    src={`/api/qrcode/${code}`}
                     alt="QR Code"
                     className="w-full h-full object-contain rounded"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement
-                      target.style.display = 'none'
-                      const parent = target.parentElement
-                      if (parent) {
-                        parent.innerHTML = `
-                          <div class="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-16 h-16 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M3 3h6v6H3V3zm2 2v2h2V5H5zm8-2h6v6h-6V3zm2 2v2h2V5h-2zM3 13h6v6H3v-6zm2 2v2h2v-2H5zm13-2h1v1h-1v-1zm-3 0h1v1h-1v-1zm-1 1h1v1h-1v-1zm1 1h1v1h-1v-1zm2 0h1v1h-1v-1zm0 2h1v1h-1v-1zm-3 0h1v1h-1v-1zm1 1h1v1h-1v-1zm2 0h3v1h-3v-1z"/>
-                            </svg>
-                          </div>
-                        `
-                      }
-                    }}
                   />
                 </div>
                 <p className="text-xs text-gray-500">Pet identified by QR Code • PIPO</p>

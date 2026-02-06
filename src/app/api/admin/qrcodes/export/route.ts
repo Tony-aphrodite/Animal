@@ -3,8 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 import archiver from 'archiver'
-import path from 'path'
-import fs from 'fs'
+import { generateQRCodeBuffer } from '@/lib/qrcode'
 
 // GET /api/admin/qrcodes/export?format=zip&filter=all
 // GET /api/admin/qrcodes/export?format=csv&filter=raw
@@ -42,9 +41,10 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: 'desc' },
     })
 
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL || 'https://pipo.app'
+
     if (format === 'csv') {
       // Generate CSV
-      const baseUrl = process.env.NEXTAUTH_URL || 'https://pipo.app'
       const csvHeader = 'Code,Status,URL,Created At,Activated At,Pet Name,Tutor Name\n'
       const csvRows = qrcodes.map((qr) => {
         const url = `${baseUrl}/pet/${qr.code}`
@@ -64,24 +64,19 @@ export async function GET(request: NextRequest) {
         },
       })
     } else if (format === 'zip') {
-      // Generate ZIP with QR code images
+      // Generate ZIP with QR code images (generated on-demand)
       const archive = archiver('zip', { zlib: { level: 9 } })
       const chunks: Buffer[] = []
 
       archive.on('data', (chunk) => chunks.push(chunk))
 
-      const qrcodesDir = path.join(process.cwd(), 'public', 'qrcodes')
-
-      // Add each QR code image to the archive
+      // Generate and add each QR code image to the archive
       for (const qr of qrcodes) {
-        const imagePath = path.join(qrcodesDir, `${qr.code}.png`)
-        if (fs.existsSync(imagePath)) {
-          archive.file(imagePath, { name: `${qr.code}.png` })
-        }
+        const buffer = await generateQRCodeBuffer(qr.code, baseUrl)
+        archive.append(buffer, { name: `${qr.code}.png` })
       }
 
       // Add a manifest CSV
-      const baseUrl = process.env.NEXTAUTH_URL || 'https://pipo.app'
       const manifestHeader = 'Code,Status,URL,Created At,Activated At\n'
       const manifestRows = qrcodes.map((qr) => {
         const url = `${baseUrl}/pet/${qr.code}`
