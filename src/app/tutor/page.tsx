@@ -57,7 +57,7 @@ export default function TutorDashboard() {
 
     const code = manualCode.trim()
     if (!code) {
-      setError('Please enter a QR code')
+      setError('Por favor, insira um código QR')
       return
     }
 
@@ -67,19 +67,19 @@ export default function TutorDashboard() {
       const data = await response.json()
 
       if (response.status === 404) {
-        setError('QR code not found')
+        setError('QR Code não encontrado')
         return
       }
 
       if (data.status === 'ACTIVE') {
-        setError('This QR code is already registered to a pet')
+        setError('Este QR Code já está registrado a um pet')
         return
       }
 
       // Redirect to activation page
       router.push(`/activate/${code}`)
     } catch {
-      setError('Failed to verify QR code')
+      setError('Falha ao verificar QR Code')
     }
   }
 
@@ -95,7 +95,7 @@ export default function TutorDashboard() {
 
       const scannerElement = document.getElementById('qr-scanner')
       if (!scannerElement) {
-        setError('Scanner element not found. Please try again.')
+        setError('Elemento do scanner não encontrado. Tente novamente.')
         setScanning(false)
         return
       }
@@ -133,7 +133,7 @@ export default function TutorDashboard() {
 
           // Validate code format (should be alphanumeric)
           if (!/^[a-zA-Z0-9]+$/.test(code)) {
-            setError('Invalid QR code format. Please try again or enter the code manually.')
+            setError('Formato de QR Code inválido. Tente novamente ou insira o código manualmente.')
             return
           }
 
@@ -146,7 +146,7 @@ export default function TutorDashboard() {
       )
     } catch (err) {
       console.error('Scanner error:', err)
-      setError('Failed to start camera. Please allow camera access or enter code manually.')
+      setError('Falha ao iniciar a câmera. Permita o acesso à câmera ou insira o código manualmente.')
       setScanning(false)
     }
   }
@@ -188,8 +188,8 @@ export default function TutorDashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">My Pets</h1>
-          <p className="text-gray-600 mt-1">Manage your registered pets</p>
+          <h1 className="text-2xl font-bold text-gray-800">Meus Pets</h1>
+          <p className="text-gray-600 mt-1">Gerencie seus pets cadastrados</p>
         </div>
         <button
           onClick={openModal}
@@ -198,7 +198,7 @@ export default function TutorDashboard() {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Register Pet
+          Cadastrar Pet
         </button>
       </div>
 
@@ -208,12 +208,12 @@ export default function TutorDashboard() {
           <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-pipo-yellow-light flex items-center justify-center">
             <span className="text-4xl">🐾</span>
           </div>
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">No pets registered yet</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">Nenhum pet cadastrado ainda</h2>
           <p className="text-gray-600 mb-6">
-            Scan a PIPO QR code on your pet&apos;s collar to register them
+            Escaneie um QR Code PIPO na coleira do seu pet para cadastrá-lo
           </p>
           <p className="text-sm text-gray-500">
-            Or if you have a QR code, visit the URL to start registration
+            Ou se você tem um QR Code, visite a URL para iniciar o cadastro
           </p>
         </div>
       ) : (
@@ -240,7 +240,7 @@ export default function TutorDashboard() {
                   {/* Pet Info */}
                   <div className="flex-1 min-w-0">
                     <h3 className="text-lg font-semibold text-gray-800 group-hover:text-pipo-green transition-colors">
-                      {pet.name || 'Unnamed Pet'}
+                      {pet.name || 'Pet sem nome'}
                     </h3>
                     {pet.species && (
                       <p className="text-gray-600">
@@ -275,7 +275,7 @@ export default function TutorDashboard() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  Preview Public Profile
+                  Ver Perfil Público
                 </Link>
               </div>
             </div>
@@ -292,11 +292,11 @@ export default function TutorDashboard() {
             </svg>
           </div>
           <div>
-            <h3 className="font-semibold text-gray-800">How it works</h3>
+            <h3 className="font-semibold text-gray-800">Como funciona</h3>
             <p className="text-gray-600 text-sm mt-1">
-              When someone finds your pet and scans the QR code on their collar,
-              they&apos;ll see the information you&apos;ve registered and can contact you
-              directly via WhatsApp or phone call.
+              Quando alguém encontrar seu pet e escanear o QR Code na coleira,
+              verá as informações que você cadastrou e poderá entrar em contato
+              diretamente via WhatsApp ou ligação.
             </p>
           </div>
         </div>
@@ -308,7 +308,7 @@ export default function TutorDashboard() {
           <div className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             {/* Modal Header */}
             <div className="flex items-center justify-between p-4 border-b">
-              <h2 className="text-xl font-bold text-gray-800">Register New Pet</h2>
+              <h2 className="text-xl font-bold text-gray-800">Cadastrar Novo Pet</h2>
               <button
                 onClick={closeModal}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -329,7 +329,7 @@ export default function TutorDashboard() {
 
               {/* QR Scanner */}
               <div>
-                <h3 className="font-semibold text-gray-800 mb-3">Scan QR Code</h3>
+                <h3 className="font-semibold text-gray-800 mb-3">Escanear QR Code</h3>
                 {scanning ? (
                   <div className="space-y-3">
                     <div
@@ -343,7 +343,7 @@ export default function TutorDashboard() {
                       onClick={stopScanner}
                       className="w-full py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                     >
-                      Cancel Scanning
+                      Cancelar Escaneamento
                     </button>
                   </div>
                 ) : (
@@ -355,7 +355,7 @@ export default function TutorDashboard() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    Open Camera
+                    Abrir Câmera
                   </button>
                 )}
               </div>
@@ -363,30 +363,30 @@ export default function TutorDashboard() {
               {/* Divider */}
               <div className="flex items-center gap-3">
                 <div className="flex-1 h-px bg-gray-200"></div>
-                <span className="text-gray-400 text-sm">OR</span>
+                <span className="text-gray-400 text-sm">OU</span>
                 <div className="flex-1 h-px bg-gray-200"></div>
               </div>
 
               {/* Manual Code Entry */}
               <form onSubmit={handleManualSubmit}>
-                <h3 className="font-semibold text-gray-800 mb-3">Enter Code Manually</h3>
+                <h3 className="font-semibold text-gray-800 mb-3">Inserir Código Manualmente</h3>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={manualCode}
                     onChange={(e) => setManualCode(e.target.value)}
-                    placeholder="Enter QR code (e.g., 00001)"
+                    placeholder="Insira o código QR (ex: 00001)"
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pipo-green focus:border-transparent"
                   />
                   <button
                     type="submit"
                     className="px-4 py-2 bg-pipo-green text-white rounded-lg font-semibold hover:bg-pipo-green/90 transition-colors"
                   >
-                    Go
+                    Ir
                   </button>
                 </div>
                 <p className="text-xs text-gray-500 mt-2">
-                  Enter the code printed below the QR code on your pet&apos;s tag
+                  Insira o código impresso abaixo do QR Code na plaquinha do seu pet
                 </p>
               </form>
             </div>

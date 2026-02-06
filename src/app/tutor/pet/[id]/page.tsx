@@ -102,15 +102,15 @@ export default function EditPetPage() {
       if (response.ok) {
         const data = await response.json()
         setPhoto(data.photo)
-        setMessage('Photo uploaded successfully!')
+        setMessage('Foto enviada com sucesso!')
         setTimeout(() => setMessage(''), 3000)
       } else {
         const error = await response.json()
-        setMessage(error.error || 'Failed to upload photo')
+        setMessage(error.error || 'Falha ao enviar foto')
       }
     } catch (error) {
       console.error('Failed to upload photo:', error)
-      setMessage('Failed to upload photo')
+      setMessage('Falha ao enviar foto')
     } finally {
       setUploadingPhoto(false)
     }
@@ -127,14 +127,14 @@ export default function EditPetPage() {
 
       if (response.ok) {
         setPhoto(null)
-        setMessage('Photo removed successfully!')
+        setMessage('Foto removida com sucesso!')
         setTimeout(() => setMessage(''), 3000)
       } else {
-        setMessage('Failed to remove photo')
+        setMessage('Falha ao remover foto')
       }
     } catch (error) {
       console.error('Failed to remove photo:', error)
-      setMessage('Failed to remove photo')
+      setMessage('Falha ao remover foto')
     } finally {
       setUploadingPhoto(false)
     }
@@ -165,14 +165,14 @@ export default function EditPetPage() {
       })
 
       if (response.ok) {
-        setMessage('Pet information saved successfully!')
+        setMessage('Informações do pet salvas com sucesso!')
         setTimeout(() => setMessage(''), 3000)
       } else {
-        setMessage('Failed to save. Please try again.')
+        setMessage('Falha ao salvar. Tente novamente.')
       }
     } catch (error) {
       console.error('Failed to save pet:', error)
-      setMessage('Failed to save. Please try again.')
+      setMessage('Falha ao salvar. Tente novamente.')
     } finally {
       setSaving(false)
     }
@@ -193,11 +193,11 @@ export default function EditPetPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <h1 className="text-2xl font-bold text-gray-800">Edit Pet Profile</h1>
+      <h1 className="text-2xl font-bold text-gray-800">Editar Perfil do Pet</h1>
 
       {/* Success/Error Message */}
       {message && (
-        <div className={`p-4 rounded-lg ${message.includes('success') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>
+        <div className={`p-4 rounded-lg ${message.includes('sucesso') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>
           {message}
         </div>
       )}
@@ -207,7 +207,7 @@ export default function EditPetPage() {
         {/* Pet Photo Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="font-semibold text-gray-800">Pet Photo</h2>
+            <h2 className="font-semibold text-gray-800">Foto do Pet</h2>
           </div>
 
           <div className="p-6">
@@ -242,7 +242,7 @@ export default function EditPetPage() {
                   disabled={uploadingPhoto}
                   className="px-4 py-2 bg-pipo-blue text-white rounded-lg text-sm font-medium hover:bg-pipo-blue/90 transition-colors disabled:opacity-50"
                 >
-                  {uploadingPhoto ? 'Uploading...' : photo ? 'Change Photo' : 'Upload Photo'}
+                  {uploadingPhoto ? 'Enviando...' : photo ? 'Alterar Foto' : 'Enviar Foto'}
                 </button>
                 {photo && (
                   <button
@@ -251,11 +251,11 @@ export default function EditPetPage() {
                     disabled={uploadingPhoto}
                     className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors disabled:opacity-50"
                   >
-                    Remove
+                    Remover
                   </button>
                 )}
               </div>
-              <p className="text-xs text-gray-500">JPEG, PNG, WebP or GIF. Max 5MB.</p>
+              <p className="text-xs text-gray-500">JPEG, PNG, WebP ou GIF. Máximo 5MB.</p>
             </div>
           </div>
         </div>
@@ -263,13 +263,13 @@ export default function EditPetPage() {
         {/* Pet Information Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="font-semibold text-gray-800">Pet Information</h2>
+            <h2 className="font-semibold text-gray-800">Informações do Pet</h2>
           </div>
 
           <div className="p-6 space-y-4">
             {/* Pet Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Pet Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Nome do Pet</label>
               <input
                 type="text"
                 value={name}
@@ -282,56 +282,56 @@ export default function EditPetPage() {
             {/* Species and Sex Row */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Species</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Espécie</label>
                 <div className="flex gap-2">
                   <button
                     type="button"
-                    onClick={() => setSpecies('Dog')}
+                    onClick={() => setSpecies('Cachorro')}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      species === 'Dog'
+                      species === 'Cachorro'
                         ? 'bg-pipo-green text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
-                    Dog
+                    Cachorro
                   </button>
                   <button
                     type="button"
-                    onClick={() => setSpecies('Cat')}
+                    onClick={() => setSpecies('Gato')}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      species === 'Cat'
+                      species === 'Gato'
                         ? 'bg-pipo-green text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
-                    Cat
+                    Gato
                   </button>
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Sex</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Sexo</label>
                 <div className="flex gap-2">
                   <button
                     type="button"
-                    onClick={() => setSex('Male')}
+                    onClick={() => setSex('Macho')}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      sex === 'Male'
+                      sex === 'Macho'
                         ? 'bg-pipo-blue text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
-                    Male
+                    Macho
                   </button>
                   <button
                     type="button"
-                    onClick={() => setSex('Female')}
+                    onClick={() => setSex('Fêmea')}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      sex === 'Female'
+                      sex === 'Fêmea'
                         ? 'bg-pipo-blue text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
-                    Female
+                    Fêmea
                   </button>
                 </div>
               </div>
@@ -339,19 +339,19 @@ export default function EditPetPage() {
 
             {/* Breed */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Breed</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Raça</label>
               <input
                 type="text"
                 value={breed}
                 onChange={(e) => setBreed(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent"
-                placeholder="Mixed Breed"
+                placeholder="Vira-lata"
               />
             </div>
 
             {/* Date of Birth */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Data de Nascimento</label>
               <input
                 type="date"
                 value={birthDate}
@@ -362,12 +362,12 @@ export default function EditPetPage() {
 
             {/* Notes */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Notes / Medical Information</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Observações / Informações Médicas</label>
               <textarea
                 value={observations}
                 onChange={(e) => setObservations(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pipo-blue focus:border-transparent min-h-[80px] resize-none"
-                placeholder="Afraid of loud noises, takes medication for allergies..."
+                placeholder="Medo de barulhos altos, toma medicação para alergias..."
               />
             </div>
           </div>
@@ -376,13 +376,13 @@ export default function EditPetPage() {
         {/* Tutor Information Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="font-semibold text-gray-800">Tutor Information</h2>
+            <h2 className="font-semibold text-gray-800">Informações do Tutor</h2>
           </div>
 
           <div className="p-6 space-y-4">
             {/* Full Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
               <input
                 type="text"
                 value={tutorName}
@@ -395,7 +395,7 @@ export default function EditPetPage() {
 
             {/* Contact Type - Radio Buttons */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Contact Method</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Método de Contato Preferido</label>
               <div className="flex items-center gap-6">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -415,14 +415,14 @@ export default function EditPetPage() {
                     onChange={() => setContactType('CALL')}
                     className="w-4 h-4 text-pipo-blue focus:ring-pipo-blue"
                   />
-                  <span className="text-gray-700">Phone Call</span>
+                  <span className="text-gray-700">Ligação</span>
                 </label>
               </div>
             </div>
 
             {/* Primary Phone */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Primary Phone</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Telefone Principal</label>
               <input
                 type="tel"
                 value={tutorPhone}
@@ -435,7 +435,7 @@ export default function EditPetPage() {
 
             {/* Secondary Phone */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Secondary Phone (Optional)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Telefone Secundário (Opcional)</label>
               <input
                 type="tel"
                 value={secondaryPhone}
@@ -447,7 +447,7 @@ export default function EditPetPage() {
 
             {/* Location */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Location (City, Neighborhood)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Localização (Cidade, Bairro)</label>
               <input
                 type="text"
                 value={location}
@@ -465,7 +465,7 @@ export default function EditPetPage() {
           disabled={saving}
           className="w-full bg-pipo-green hover:bg-pipo-green/90 text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {saving ? 'Saving...' : 'Save Changes'}
+          {saving ? 'Salvando...' : 'Salvar Alterações'}
         </button>
       </form>
     </div>

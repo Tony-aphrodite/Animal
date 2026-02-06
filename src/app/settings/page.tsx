@@ -35,12 +35,12 @@ export default function SettingsPage() {
     setSuccess('')
 
     if (newPassword !== confirmPassword) {
-      setError('New passwords do not match')
+      setError('As novas senhas não coincidem')
       return
     }
 
     if (newPassword.length < 6) {
-      setError('New password must be at least 6 characters')
+      setError('A nova senha deve ter pelo menos 6 caracteres')
       return
     }
 
@@ -56,16 +56,16 @@ export default function SettingsPage() {
       const data = await response.json()
 
       if (!response.ok) {
-        setError(data.error || 'Failed to change password')
+        setError(data.error || 'Falha ao alterar senha')
         return
       }
 
-      setSuccess('Password changed successfully!')
+      setSuccess('Senha alterada com sucesso!')
       setCurrentPassword('')
       setNewPassword('')
       setConfirmPassword('')
     } catch {
-      setError('An error occurred. Please try again.')
+      setError('Ocorreu um erro. Tente novamente.')
     } finally {
       setLoading(false)
     }
@@ -86,31 +86,31 @@ export default function SettingsPage() {
             href={dashboardUrl}
             className="text-white hover:text-white/80 transition-colors"
           >
-            ← Back
+            ← Voltar
           </Link>
         </div>
       </header>
 
       {/* Main Content */}
       <div className="max-w-lg mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Settings</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-6">Configurações</h1>
 
         {/* User Info */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">Account Information</h2>
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Informações da Conta</h2>
           <div className="space-y-3">
             <div>
-              <span className="text-sm text-gray-500">Name</span>
+              <span className="text-sm text-gray-500">Nome</span>
               <p className="font-medium text-gray-800">{session.user.name || '-'}</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">Email</span>
+              <span className="text-sm text-gray-500">E-mail</span>
               <p className="font-medium text-gray-800">{session.user.email}</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">Role</span>
+              <span className="text-sm text-gray-500">Função</span>
               <p className="font-medium text-gray-800">
-                {session.user.role === 'ADMIN' ? 'Administrator' : 'Tutor'}
+                {session.user.role === 'ADMIN' ? 'Administrador' : 'Tutor'}
               </p>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function SettingsPage() {
 
         {/* Change Password */}
         <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">Change Password</h2>
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Alterar Senha</h2>
 
           {error && (
             <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm">
@@ -135,7 +135,7 @@ export default function SettingsPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Current Password
+                Senha Atual
               </label>
               <input
                 type="password"
@@ -148,7 +148,7 @@ export default function SettingsPage() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                New Password
+                Nova Senha
               </label>
               <input
                 type="password"
@@ -158,12 +158,12 @@ export default function SettingsPage() {
                 required
                 minLength={6}
               />
-              <p className="text-xs text-gray-500 mt-1">Minimum 6 characters</p>
+              <p className="text-xs text-gray-500 mt-1">Mínimo de 6 caracteres</p>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Confirm New Password
+                Confirmar Nova Senha
               </label>
               <input
                 type="password"
@@ -179,7 +179,7 @@ export default function SettingsPage() {
               disabled={loading}
               className="w-full py-3 bg-pipo-blue text-white font-semibold rounded-lg hover:bg-pipo-blue/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Changing...' : 'Change Password'}
+              {loading ? 'Alterando...' : 'Alterar Senha'}
             </button>
           </form>
         </div>

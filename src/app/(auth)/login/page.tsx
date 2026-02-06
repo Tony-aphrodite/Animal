@@ -28,7 +28,7 @@ function LoginForm() {
       })
 
       if (result?.error) {
-        setError('Invalid email or password')
+        setError('E-mail ou senha inválidos')
       } else {
         // If there's a specific callbackUrl, use it
         if (callbackUrl && callbackUrl !== '/') {
@@ -47,7 +47,7 @@ function LoginForm() {
         router.refresh()
       }
     } catch {
-      setError('An error occurred. Please try again.')
+      setError('Ocorreu um erro. Tente novamente.')
     } finally {
       setLoading(false)
     }
@@ -61,13 +61,13 @@ function LoginForm() {
           <h1 className="text-5xl font-bold text-pipo-yellow drop-shadow-lg">
             🐾 PIPO
           </h1>
-          <p className="text-gray-600 mt-2">Pet Identification System</p>
+          <p className="text-gray-600 mt-2">Sistema de Identificação de Pets</p>
         </div>
 
         {/* Login Card */}
         <div className="bg-white rounded-2xl shadow-xl p-8 animate-fadeIn">
           <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
-            Welcome Back
+            Bem-vindo de Volta
           </h2>
 
           {error && (
@@ -79,7 +79,7 @@ function LoginForm() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="input-label">
-                Email
+                E-mail
               </label>
               <input
                 id="email"
@@ -87,14 +87,14 @@ function LoginForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="input"
-                placeholder="your@email.com"
+                placeholder="seu@email.com"
                 required
               />
             </div>
 
             <div>
               <label htmlFor="password" className="input-label">
-                Password
+                Senha
               </label>
               <input
                 id="password"
@@ -130,22 +130,22 @@ function LoginForm() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     />
                   </svg>
-                  Signing in...
+                  Entrando...
                 </span>
               ) : (
-                'Sign In'
+                'Entrar'
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Don&apos;t have an account?{' '}
+              Não tem uma conta?{' '}
               <Link
                 href="/register"
                 className="text-pipo-blue hover:underline font-medium"
               >
-                Register here
+                Cadastre-se aqui
               </Link>
             </p>
           </div>
@@ -153,7 +153,7 @@ function LoginForm() {
 
         {/* Footer */}
         <p className="text-center text-gray-500 text-sm mt-6">
-          © 2024 PIPO - Pet Identification System
+          © 2024 PIPO - Sistema de Identificação de Pets
         </p>
       </div>
     </div>

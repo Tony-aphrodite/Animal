@@ -20,12 +20,12 @@ export default function RegisterPage() {
     setError('')
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match')
+      setError('As senhas não coincidem')
       return
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters')
+      setError('A senha deve ter pelo menos 6 caracteres')
       return
     }
 
@@ -41,7 +41,7 @@ export default function RegisterPage() {
       const data = await response.json()
 
       if (!response.ok) {
-        setError(data.error || 'Registration failed')
+        setError(data.error || 'Falha no cadastro')
         return
       }
 
@@ -61,7 +61,7 @@ export default function RegisterPage() {
         router.refresh()
       }
     } catch {
-      setError('An error occurred. Please try again.')
+      setError('Ocorreu um erro. Tente novamente.')
     } finally {
       setLoading(false)
     }
@@ -75,13 +75,13 @@ export default function RegisterPage() {
           <h1 className="text-5xl font-bold text-pipo-yellow drop-shadow-lg">
             🐾 PIPO
           </h1>
-          <p className="text-gray-600 mt-2">Pet Identification System</p>
+          <p className="text-gray-600 mt-2">Sistema de Identificação de Pets</p>
         </div>
 
         {/* Register Card */}
         <div className="bg-white rounded-2xl shadow-xl p-8 animate-fadeIn">
           <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
-            Create Account
+            Criar Conta
           </h2>
 
           {error && (
@@ -93,7 +93,7 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="name" className="input-label">
-                Full Name
+                Nome Completo
               </label>
               <input
                 id="name"
@@ -101,13 +101,13 @@ export default function RegisterPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="input"
-                placeholder="John Doe"
+                placeholder="João Silva"
               />
             </div>
 
             <div>
               <label htmlFor="email" className="input-label">
-                Email
+                E-mail
               </label>
               <input
                 id="email"
@@ -115,14 +115,14 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="input"
-                placeholder="your@email.com"
+                placeholder="seu@email.com"
                 required
               />
             </div>
 
             <div>
               <label htmlFor="password" className="input-label">
-                Password
+                Senha
               </label>
               <input
                 id="password"
@@ -138,7 +138,7 @@ export default function RegisterPage() {
 
             <div>
               <label htmlFor="confirmPassword" className="input-label">
-                Confirm Password
+                Confirmar Senha
               </label>
               <input
                 id="confirmPassword"
@@ -174,22 +174,22 @@ export default function RegisterPage() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     />
                   </svg>
-                  Creating account...
+                  Criando conta...
                 </span>
               ) : (
-                'Create Account'
+                'Criar Conta'
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Already have an account?{' '}
+              Já tem uma conta?{' '}
               <Link
                 href="/login"
                 className="text-pipo-blue hover:underline font-medium"
               >
-                Sign in here
+                Entre aqui
               </Link>
             </p>
           </div>
@@ -197,7 +197,7 @@ export default function RegisterPage() {
 
         {/* Footer */}
         <p className="text-center text-gray-500 text-sm mt-6">
-          © 2024 PIPO - Pet Identification System
+          © 2024 PIPO - Sistema de Identificação de Pets
         </p>
       </div>
     </div>

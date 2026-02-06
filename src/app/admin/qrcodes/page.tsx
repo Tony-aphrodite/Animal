@@ -93,7 +93,7 @@ export default function QRCodesPage() {
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString('pt-BR', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -106,7 +106,7 @@ export default function QRCodesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">QR Codes</h1>
-          <p className="text-gray-600 mt-1">Manage and generate QR codes</p>
+          <p className="text-gray-600 mt-1">Gerencie e gere QR codes</p>
         </div>
         <button
           onClick={() => setShowGenerateModal(true)}
@@ -115,7 +115,7 @@ export default function QRCodesPage() {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Generate QR Codes
+          Gerar QR Codes
         </button>
       </div>
 
@@ -158,8 +158,8 @@ export default function QRCodesPage() {
             <svg className="w-16 h-16 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
             </svg>
-            <p className="text-lg font-medium">No QR codes found</p>
-            <p className="text-sm">Generate your first QR code to get started</p>
+            <p className="text-lg font-medium">Nenhum QR Code encontrado</p>
+            <p className="text-sm">Gere seu primeiro QR Code para começar</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -167,12 +167,12 @@ export default function QRCodesPage() {
               <thead className="bg-gray-50 border-b">
                 <tr>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">#</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Code</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Código</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Status</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Pet</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Created</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Activated</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Actions</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Criado</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Ativado</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Ações</th>
                 </tr>
               </thead>
               <tbody className="divide-y">
@@ -191,7 +191,7 @@ export default function QRCodesPage() {
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-600">
                       {qr.pet ? (
-                        <span>{qr.pet.name || 'Unnamed'}</span>
+                        <span>{qr.pet.name || 'Sem nome'}</span>
                       ) : (
                         <span className="text-gray-400">-</span>
                       )}
@@ -224,8 +224,8 @@ export default function QRCodesPage() {
         {pagination && pagination.totalPages > 1 && (
           <div className="flex items-center justify-between px-6 py-4 border-t bg-gray-50">
             <p className="text-sm text-gray-600">
-              Showing {(pagination.page - 1) * pagination.limit + 1} to{' '}
-              {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total}
+              Mostrando {(pagination.page - 1) * pagination.limit + 1} a{' '}
+              {Math.min(pagination.page * pagination.limit, pagination.total)} de {pagination.total}
             </p>
             <div className="flex gap-2">
               <button
@@ -233,14 +233,14 @@ export default function QRCodesPage() {
                 disabled={pagination.page === 1}
                 className="px-4 py-2 rounded-lg bg-white border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
               >
-                Previous
+                Anterior
               </button>
               <button
                 onClick={() => fetchQRCodes(pagination.page + 1)}
                 disabled={pagination.page === pagination.totalPages}
                 className="px-4 py-2 rounded-lg bg-white border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
               >
-                Next
+                Próximo
               </button>
             </div>
           </div>
@@ -252,12 +252,12 @@ export default function QRCodesPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md animate-fadeIn">
             <div className="p-6 border-b">
-              <h2 className="text-xl font-bold text-gray-800">Generate QR Codes</h2>
+              <h2 className="text-xl font-bold text-gray-800">Gerar QR Codes</h2>
             </div>
             <div className="p-6 space-y-4">
               <div>
                 <label htmlFor="count" className="input-label">
-                  Number of QR Codes
+                  Quantidade de QR Codes
                 </label>
                 <input
                   id="count"
@@ -268,7 +268,7 @@ export default function QRCodesPage() {
                   onChange={(e) => setGenerateCount(parseInt(e.target.value) || 1)}
                   className="input"
                 />
-                <p className="text-sm text-gray-500 mt-1">Maximum 100 at a time</p>
+                <p className="text-sm text-gray-500 mt-1">Máximo de 100 por vez</p>
               </div>
             </div>
             <div className="p-6 border-t bg-gray-50 flex justify-end gap-3 rounded-b-2xl">
@@ -276,14 +276,14 @@ export default function QRCodesPage() {
                 onClick={() => setShowGenerateModal(false)}
                 className="px-4 py-2 rounded-lg border hover:bg-gray-100 transition-colors"
               >
-                Cancel
+                Cancelar
               </button>
               <button
                 onClick={handleGenerate}
                 disabled={generating}
                 className="btn btn-primary disabled:opacity-50"
               >
-                {generating ? 'Generating...' : `Generate ${generateCount} Code(s)`}
+                {generating ? 'Gerando...' : `Gerar ${generateCount} Código(s)`}
               </button>
             </div>
           </div>

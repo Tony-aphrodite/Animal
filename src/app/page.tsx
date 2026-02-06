@@ -15,7 +15,7 @@ export default function HomePage() {
         <div className="absolute inset-0 opacity-20">
           <Image
             src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=1920&q=80"
-            alt="Happy dog background"
+            alt="Cachorro feliz de fundo"
             fill
             className="object-cover"
             priority
@@ -35,7 +35,7 @@ export default function HomePage() {
                   href={session.user.role === 'ADMIN' ? '/admin' : '/tutor'}
                   className="btn btn-warning"
                 >
-                  Dashboard
+                  Painel
                 </Link>
               ) : (
                 <>
@@ -43,13 +43,13 @@ export default function HomePage() {
                     href="/login"
                     className="text-white hover:text-pipo-yellow transition-colors"
                   >
-                    Sign In
+                    Entrar
                   </Link>
                   <Link
                     href="/register"
                     className="btn btn-warning"
                   >
-                    Get Started
+                    Começar
                   </Link>
                 </>
               )}
@@ -63,12 +63,12 @@ export default function HomePage() {
             {/* Text Content */}
             <div className="flex-1 text-center lg:text-left text-white">
               <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                Help Lost Pets<br />
-                <span className="text-pipo-yellow">Find Their Way Home</span>
+                Ajude Pets Perdidos<br />
+                <span className="text-pipo-yellow">a Encontrar o Caminho de Casa</span>
               </h1>
               <p className="text-xl md:text-2xl text-white/80 mb-10 max-w-2xl">
-                PIPO is a smart QR code system that connects your pet with anyone who finds them.
-                One scan, instant contact.
+                PIPO é um sistema inteligente de QR Code que conecta seu pet com quem o encontrar.
+                Uma leitura, contato instantâneo.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
@@ -76,13 +76,13 @@ export default function HomePage() {
                   className="btn btn-warning text-lg px-8 py-4 inline-flex items-center justify-center gap-2"
                 >
                   <span>🐾</span>
-                  Register Your Pet
+                  Cadastre Seu Pet
                 </Link>
                 <a
                   href="#how-it-works"
                   className="btn bg-white/20 text-white hover:bg-white/30 text-lg px-8 py-4 inline-flex items-center justify-center gap-2"
                 >
-                  Learn More
+                  Saiba Mais
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -97,7 +97,7 @@ export default function HomePage() {
                 <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/30 shadow-2xl">
                   <Image
                     src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=800&q=80"
-                    alt="Happy dog with collar"
+                    alt="Cachorro feliz com coleira"
                     fill
                     className="object-cover"
                     priority
@@ -129,10 +129,10 @@ export default function HomePage() {
       <section id="how-it-works" className="py-20 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4">
-            How It Works
+            Como Funciona
           </h2>
           <p className="text-gray-600 text-center mb-16 max-w-2xl mx-auto">
-            Simple, fast, and effective. PIPO connects finders with pet owners in seconds.
+            Simples, rápido e eficaz. O PIPO conecta quem encontra com os donos dos pets em segundos.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -141,7 +141,7 @@ export default function HomePage() {
               <div className="relative w-48 h-48 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-xl transition-shadow">
                 <Image
                   src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400&q=80"
-                  alt="Dog wearing collar with tag"
+                  alt="Cachorro usando coleira com plaquinha"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -150,9 +150,9 @@ export default function HomePage() {
                   <span className="inline-flex items-center justify-center w-10 h-10 bg-white rounded-full text-pipo-blue font-bold text-lg">1</span>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-3">Get a PIPO Tag</h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-3">Adquira uma Plaquinha PIPO</h3>
               <p className="text-gray-600">
-                Attach a PIPO QR code tag to your pet&apos;s collar and register their information.
+                Coloque a plaquinha PIPO com QR Code na coleira do seu pet e cadastre as informações.
               </p>
             </div>
 
@@ -161,7 +161,7 @@ export default function HomePage() {
               <div className="relative w-48 h-48 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-xl transition-shadow">
                 <Image
                   src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=400&q=80"
-                  alt="Person with dog outdoors"
+                  alt="Pessoa com cachorro ao ar livre"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -170,9 +170,9 @@ export default function HomePage() {
                   <span className="inline-flex items-center justify-center w-10 h-10 bg-white rounded-full text-pipo-green font-bold text-lg">2</span>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-3">Someone Finds Your Pet</h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-3">Alguém Encontra Seu Pet</h3>
               <p className="text-gray-600">
-                The finder scans the QR code with their smartphone camera.
+                A pessoa que encontrar escaneia o QR Code com a câmera do celular.
               </p>
             </div>
 
@@ -181,7 +181,7 @@ export default function HomePage() {
               <div className="relative w-48 h-48 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-xl transition-shadow">
                 <Image
                   src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&q=80"
-                  alt="Happy reunion with pet"
+                  alt="Reunião feliz com o pet"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -190,9 +190,9 @@ export default function HomePage() {
                   <span className="inline-flex items-center justify-center w-10 h-10 bg-white rounded-full text-amber-600 font-bold text-lg">3</span>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-3">Instant Reunion</h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-3">Reencontro Instantâneo</h3>
               <p className="text-gray-600">
-                The finder sees your pet&apos;s info and contacts you directly via WhatsApp or phone.
+                A pessoa vê as informações do seu pet e entra em contato diretamente via WhatsApp ou ligação.
               </p>
             </div>
           </div>
@@ -203,7 +203,7 @@ export default function HomePage() {
       <section className="py-20 px-6 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-16">
-            Why Choose PIPO?
+            Por Que Escolher o PIPO?
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -213,9 +213,9 @@ export default function HomePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="font-bold text-gray-800 mb-2">Instant Contact</h3>
+              <h3 className="font-bold text-gray-800 mb-2">Contato Instantâneo</h3>
               <p className="text-gray-600 text-sm">
-                No app needed. One scan connects finder to owner.
+                Não precisa de app. Uma leitura conecta quem encontrou ao dono.
               </p>
             </div>
 
@@ -225,9 +225,9 @@ export default function HomePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
-              <h3 className="font-bold text-gray-800 mb-2">Privacy Control</h3>
+              <h3 className="font-bold text-gray-800 mb-2">Controle de Privacidade</h3>
               <p className="text-gray-600 text-sm">
-                You choose what information to display publicly.
+                Você escolhe quais informações exibir publicamente.
               </p>
             </div>
 
@@ -237,9 +237,9 @@ export default function HomePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
               </div>
-              <h3 className="font-bold text-gray-800 mb-2">Easy Updates</h3>
+              <h3 className="font-bold text-gray-800 mb-2">Atualizações Fáceis</h3>
               <p className="text-gray-600 text-sm">
-                Update your pet&apos;s info anytime from your account.
+                Atualize as informações do seu pet a qualquer momento pela sua conta.
               </p>
             </div>
 
@@ -249,9 +249,9 @@ export default function HomePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="font-bold text-gray-800 mb-2">Works Anywhere</h3>
+              <h3 className="font-bold text-gray-800 mb-2">Funciona em Qualquer Lugar</h3>
               <p className="text-gray-600 text-sm">
-                100% web-based. Works on any smartphone with a camera.
+                100% baseado na web. Funciona em qualquer smartphone com câmera.
               </p>
             </div>
           </div>
@@ -264,7 +264,7 @@ export default function HomePage() {
         <div className="absolute inset-0 opacity-15">
           <Image
             src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=1920&q=80"
-            alt="Happy pets background"
+            alt="Pets felizes de fundo"
             fill
             className="object-cover"
           />
@@ -278,7 +278,7 @@ export default function HomePage() {
                 <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden shadow-xl border-2 border-white/30">
                   <Image
                     src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=300&q=80"
-                    alt="Cat portrait"
+                    alt="Retrato de gato"
                     fill
                     className="object-cover"
                   />
@@ -294,7 +294,7 @@ export default function HomePage() {
                 <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden shadow-xl border-2 border-white/30 -mt-4">
                   <Image
                     src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=300&q=80"
-                    alt="Cute dog"
+                    alt="Cachorro fofo"
                     fill
                     className="object-cover"
                   />
@@ -302,7 +302,7 @@ export default function HomePage() {
                 <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden shadow-xl border-2 border-white/30 mt-4">
                   <Image
                     src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=300&q=80"
-                    alt="Tabby cat"
+                    alt="Gato rajado"
                     fill
                     className="object-cover"
                   />
@@ -313,18 +313,18 @@ export default function HomePage() {
             {/* CTA Content */}
             <div className="flex-1 text-center lg:text-left">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Protect Your Pet Today
+                Proteja Seu Pet Hoje
               </h2>
               <p className="text-xl text-white/80 mb-8">
-                Join thousands of pet owners who trust PIPO to keep their furry friends safe.
-                Because every pet deserves to find their way back home.
+                Junte-se a milhares de donos de pets que confiam no PIPO para manter seus amigos peludos seguros.
+                Porque todo pet merece encontrar o caminho de volta para casa.
               </p>
               <Link
                 href="/register"
                 className="btn btn-warning text-lg px-8 py-4 inline-flex items-center gap-2"
               >
                 <span>🐾</span>
-                Get Started Free
+                Comece Grátis
               </Link>
             </div>
           </div>
@@ -340,12 +340,12 @@ export default function HomePage() {
               <span className="text-xl font-bold text-pipo-yellow">PIPO</span>
             </div>
             <p className="text-gray-400 text-sm">
-              © 2024 PIPO - Pet Identification System. All rights reserved.
+              © 2024 PIPO - Sistema de Identificação de Pets. Todos os direitos reservados.
             </p>
             <div className="flex gap-6 text-sm">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Terms</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Contact</a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacidade</a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">Termos</a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">Contato</a>
             </div>
           </div>
         </div>

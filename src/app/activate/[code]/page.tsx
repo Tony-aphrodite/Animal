@@ -62,7 +62,7 @@ export default function ActivatePage() {
     setError('')
 
     if (!tutorName || !tutorPhone) {
-      setError('Name and phone are required')
+      setError('Nome e telefone são obrigatórios')
       return
     }
 
@@ -88,7 +88,7 @@ export default function ActivatePage() {
       const data = await response.json()
 
       if (!response.ok) {
-        setError(data.error || 'Failed to activate')
+        setError(data.error || 'Falha ao ativar')
         return
       }
 
@@ -96,7 +96,7 @@ export default function ActivatePage() {
       router.push(`/pet/${code}`)
     } catch (error) {
       console.error('Failed to activate:', error)
-      setError('An error occurred. Please try again.')
+      setError('Ocorreu um erro. Tente novamente.')
     } finally {
       setSaving(false)
     }
@@ -119,8 +119,8 @@ export default function ActivatePage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">QR Code Not Found</h1>
-          <p className="text-gray-600">This QR code is not registered in our system.</p>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">QR Code Não Encontrado</h1>
+          <p className="text-gray-600">Este QR Code não está registrado em nosso sistema.</p>
         </div>
       </div>
     )
@@ -134,25 +134,25 @@ export default function ActivatePage() {
             <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-pipo-yellow flex items-center justify-center">
               <span className="text-4xl">🐾</span>
             </div>
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">Activate Your PIPO</h1>
+            <h1 className="text-2xl font-bold text-gray-800 mb-2">Ative seu PIPO</h1>
             <p className="text-gray-600 mb-6">
-              Register your pet with QR Code <span className="font-mono font-bold">#{code}</span>
+              Cadastre seu pet com o QR Code <span className="font-mono font-bold">#{code}</span>
             </p>
             <p className="text-gray-500 mb-6">
-              Please sign in or create an account to continue
+              Por favor, entre ou crie uma conta para continuar
             </p>
             <div className="space-y-3">
               <Link
                 href={`/login?callbackUrl=/activate/${code}`}
                 className="block w-full btn btn-primary py-3 text-center"
               >
-                Sign In
+                Entrar
               </Link>
               <Link
                 href={`/register?callbackUrl=/activate/${code}`}
                 className="block w-full btn btn-secondary py-3 text-center"
               >
-                Create Account
+                Criar Conta
               </Link>
             </div>
           </div>
@@ -170,7 +170,7 @@ export default function ActivatePage() {
             <span className="text-3xl">🐾</span>
             <span className="text-2xl font-bold text-pipo-yellow drop-shadow">PIPO</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-800">Activate Your Pet&apos;s ID</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Ative a Identificação do seu Pet</h1>
           <p className="text-gray-600 mt-1">
             QR Code: <span className="font-mono font-bold">#{code}</span>
           </p>
@@ -188,26 +188,26 @@ export default function ActivatePage() {
           <div className="card">
             <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <span className="text-xl">👤</span>
-              Your Contact Info
+              Suas Informações de Contato
               <span className="text-red-500">*</span>
             </h2>
 
             <div className="space-y-4">
               <div>
-                <label htmlFor="tutorName" className="input-label">Your Name *</label>
+                <label htmlFor="tutorName" className="input-label">Seu Nome *</label>
                 <input
                   id="tutorName"
                   type="text"
                   value={tutorName}
                   onChange={(e) => setTutorName(e.target.value)}
                   className="input"
-                  placeholder="Your full name"
+                  placeholder="Seu nome completo"
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="tutorPhone" className="input-label">Phone Number *</label>
+                <label htmlFor="tutorPhone" className="input-label">Telefone *</label>
                 <input
                   id="tutorPhone"
                   type="tel"
@@ -220,7 +220,7 @@ export default function ActivatePage() {
               </div>
 
               <div>
-                <label className="input-label">Preferred Contact Method *</label>
+                <label className="input-label">Método de Contato Preferido *</label>
                 <div className="flex gap-4 mt-2">
                   <label className={`flex-1 flex items-center justify-center gap-2 p-4 rounded-lg border-2 cursor-pointer transition-colors ${contactType === 'WHATSAPP' ? 'border-pipo-green bg-pipo-green-light' : 'border-gray-200 hover:border-gray-300'}`}>
                     <input
@@ -244,7 +244,7 @@ export default function ActivatePage() {
                       className="hidden"
                     />
                     <span className="text-xl">📞</span>
-                    <span className="font-medium">Phone Call</span>
+                    <span className="font-medium">Ligação</span>
                   </label>
                 </div>
               </div>
@@ -255,74 +255,74 @@ export default function ActivatePage() {
           <div className="card">
             <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <span className="text-xl">🐾</span>
-              Pet Info
-              <span className="text-sm font-normal text-gray-500">(Optional)</span>
+              Informações do Pet
+              <span className="text-sm font-normal text-gray-500">(Opcional)</span>
             </h2>
 
             <div className="space-y-4">
               <div>
-                <label htmlFor="name" className="input-label">Pet&apos;s Name</label>
+                <label htmlFor="name" className="input-label">Nome do Pet</label>
                 <input
                   id="name"
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="input"
-                  placeholder="Pet's name"
+                  placeholder="Nome do pet"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="species" className="input-label">Species</label>
+                  <label htmlFor="species" className="input-label">Espécie</label>
                   <select
                     id="species"
                     value={species}
                     onChange={(e) => setSpecies(e.target.value)}
                     className="input"
                   >
-                    <option value="">Select</option>
-                    <option value="Dog">Dog</option>
-                    <option value="Cat">Cat</option>
-                    <option value="Bird">Bird</option>
-                    <option value="Other">Other</option>
+                    <option value="">Selecionar</option>
+                    <option value="Cachorro">Cachorro</option>
+                    <option value="Gato">Gato</option>
+                    <option value="Pássaro">Pássaro</option>
+                    <option value="Outro">Outro</option>
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="breed" className="input-label">Breed</label>
+                  <label htmlFor="breed" className="input-label">Raça</label>
                   <input
                     id="breed"
                     type="text"
                     value={breed}
                     onChange={(e) => setBreed(e.target.value)}
                     className="input"
-                    placeholder="Breed"
+                    placeholder="Raça"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="sex" className="input-label">Sex</label>
+                <label htmlFor="sex" className="input-label">Sexo</label>
                 <select
                   id="sex"
                   value={sex}
                   onChange={(e) => setSex(e.target.value)}
                   className="input"
                 >
-                  <option value="">Select</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                  <option value="">Selecionar</option>
+                  <option value="Macho">Macho</option>
+                  <option value="Fêmea">Fêmea</option>
                 </select>
               </div>
 
               <div>
-                <label htmlFor="observations" className="input-label">Notes / Medical Info</label>
+                <label htmlFor="observations" className="input-label">Observações / Info Médica</label>
                 <textarea
                   id="observations"
                   value={observations}
                   onChange={(e) => setObservations(e.target.value)}
                   className="input min-h-[80px]"
-                  placeholder="Any special notes..."
+                  placeholder="Alguma observação especial..."
                 />
               </div>
             </div>
@@ -340,15 +340,15 @@ export default function ActivatePage() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
-                Activating...
+                Ativando...
               </span>
             ) : (
-              '🐾 Activate Pet ID'
+              '🐾 Ativar Identificação do Pet'
             )}
           </button>
 
           <p className="text-center text-sm text-gray-500">
-            You can add more details and a photo later in your profile
+            Você pode adicionar mais detalhes e uma foto depois no seu perfil
           </p>
         </form>
       </div>
